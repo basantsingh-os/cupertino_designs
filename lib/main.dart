@@ -36,6 +36,7 @@ class HomeScreen extends StatelessWidget {
               ),
               child: Center(
                   child: CupertinoButton(
+                color: CupertinoColors.activeBlue,
                 child: Text("This is tab #$i",
                     style: CupertinoTheme.of(context)
                         .textTheme
@@ -54,18 +55,57 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class DetailedScreen extends StatelessWidget {
+class DetailedScreen extends StatefulWidget {
   final String topic;
   DetailedScreen(this.topic);
+
+  @override
+  _DetailedScreenState createState() => _DetailedScreenState();
+}
+
+class _DetailedScreenState extends State<DetailedScreen> {
   @override
   Widget build(BuildContext context) {
+    bool switchValue = false;
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(middle: Text("Details")),
         child: Center(
-          child: Text(
-            "Details for $topic",
-            style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
-          ),
-        ));
+            child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CupertinoButton(
+              child: Text("Launch a Action Sheet"),
+              onPressed: () {
+                showCupertinoModalPopup(
+                    context: context,
+                    builder: (context) {
+                      return CupertinoActionSheet(
+                        title: Text("Some Choices"),
+                        actions: [
+                          CupertinoActionSheetAction(
+                              onPressed: () {
+                                Navigator.pop(context, 1);
+                              },
+                              child: Text("One!")),
+                                                        CupertinoActionSheetAction(
+                              onPressed: () {
+                                Navigator.pop(context, 2);
+                              },
+                              child: Text("Two!")),
+
+                                                        CupertinoActionSheetAction(
+                              onPressed: () {
+                                Navigator.pop(context, 3);
+                              },
+                              child: Text("Three!")),
+
+                        ],
+                      );
+                    });
+              },
+            )
+          ],
+        )));
   }
 }
